@@ -12,6 +12,7 @@ export default class PlayerScript extends GameScript {
     async loadAssets() {
         // Cursor
         const cursor = new GameObject()
+            .setName("cursor")
             .setColor(Color(0, 0, 0))
             .setVertices([
                 Vector2(0, 0),
@@ -20,10 +21,23 @@ export default class PlayerScript extends GameScript {
                 Vector2(8, 25)
             ])
             .setLayer(3)
-            .setUseCamera(false)
+            // .setUseCamera(false)
             .setFills([
-                createFillInfo("BF", [Color(0, 255, 255), Color(0, 0, 0)], Vector2(5, 5))
+                createFillInfo("BF", [Color(0, 255, 255), Color(0, 0, 0)], Vector2(2, 2))
             ])
+
+        const circle = new GameObject()
+            .setName("circle")
+            .setVertices([
+                Vector2(0, 0)
+            ])
+            .setColor(Color(0, 0, 0))
+            .setFills([
+                createFillInfo("BF", [Color(255, 0, 0), Color(0, 0, 0)], Vector2(0, 0))
+            ])
+            .setLayer(3)
+            .setRadius(50)
+            .setPosition(Vector2(-100, -100))
 
 
         // Player Loading
@@ -58,16 +72,23 @@ export default class PlayerScript extends GameScript {
 
         this.objects["player"] = player;
         this.objects["cursor"] = cursor;
+        this.objects["circle"] = circle;
         this.engine.addObject(player);
         this.engine.addObject(cursor);
+        this.engine.addObject(circle);
     }
 
     start() {
         let direction = "Down";
 
         this.objects["cursor"].bindToUpdate((self, delta, time) => {
-            // self.setPosition(this.engine.camera.screenToWorld(this.engine.input.getMousePosition()));
-            self.setPosition(this.engine.input.getMousePosition())
+            self.setPosition(this.engine.camera.screenToWorld(this.engine.input.getMousePosition()));
+            // self.setPosition(this.engine.input.getMousePosition())
+        });
+
+        this.objects["circle"].bindToUpdate((self, delta, time) => {
+            self.setPosition(this.engine.camera.screenToWorld(this.engine.input.getMousePosition()));
+            // self.setPosition(this.engine.input.getMousePosition())
         });
 
         this.objects["player"].bindToUpdate((self, delta, time) => {
