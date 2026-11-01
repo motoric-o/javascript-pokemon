@@ -21,25 +21,10 @@ export default class PlayerScript extends GameScript {
                 Vector2(8, 25)
             ])
             .setLayer(3)
-            // .setUseCamera(false)
+            .setUseCamera(false)
             .setFills([
                 createFillInfo("BF", [Color(0, 255, 255), Color(0, 0, 0)], Vector2(2, 2))
             ])
-
-        const circle = new GameObject()
-            .setName("circle")
-            .setVertices([
-                Vector2(0, 0)
-            ])
-            .setColor(Color(0, 0, 0))
-            .setFills([
-                createFillInfo("BF", [Color(255, 0, 0), Color(0, 0, 0)], Vector2(0, 0))
-            ])
-            .setLayer(3)
-            .setRadius(50)
-            .setPosition(Vector2(-100, -100))
-            .setVelocity(Vector2(0, 50))
-
 
         // Player Loading
         const playerAsset = await createAsset('../../assets/player/player-red-sprite-sheet.png');
@@ -47,7 +32,6 @@ export default class PlayerScript extends GameScript {
         const player = new GameObject()
             .setName("Player")
             .setSprite(playerAsset, Vector2(17, 24))
-            // .setUseCamera(true)
             .addToCollisionLayerBlacklist(2)
             .setLayer(1)
             .addAttribute("canMove", true)
@@ -73,24 +57,17 @@ export default class PlayerScript extends GameScript {
 
         this.objects["player"] = player;
         this.objects["cursor"] = cursor;
-        this.objects["circle"] = circle;
         this.engine.addObject(player);
         this.engine.addObject(cursor);
-        this.engine.addObject(circle);
     }
 
     start() {
         let direction = "Down";
 
         this.objects["cursor"].bindToUpdate((self, delta, time) => {
-            self.setPosition(this.engine.camera.screenToWorld(this.engine.input.getMousePosition()));
-            // self.setPosition(this.engine.input.getMousePosition())
+            // self.setPosition(this.engine.camera.screenToWorld(this.engine.input.getMousePosition()));
+            self.setPosition(this.engine.input.getMousePosition())
         });
-
-        // this.objects["circle"].bindToUpdate((self, delta, time) => {
-        //     self.setPosition(this.engine.camera.screenToWorld(this.engine.input.getMousePosition()));
-        //     // self.setPosition(this.engine.input.getMousePosition())
-        // });
 
         this.objects["player"].bindToUpdate((self, delta, time) => {
             if (!this.objects["player"].custom_attributes["canMove"]) {
@@ -112,7 +89,6 @@ export default class PlayerScript extends GameScript {
             if (this.engine.input.isKeyDown("s")) {
                 y = 1;
             }
-
 
             let moveSpeed = 400;
 
@@ -145,16 +121,17 @@ export default class PlayerScript extends GameScript {
 
             self.setVelocity(Vector2(x * moveSpeed, y * moveSpeed));
 
-            if (self.graphics.Transform.magnitude(self.velocity) < 1) {
-                if (self.sprite.currentAnimation.includes("idle")) {
-                    return;
-                }
-                self.sprite.setAnimation("idle" + direction);
-            } else {
+            if (self.graphics.Transform.magnitude(self.velocity) > 0) {
+
                 if (self.sprite.currentAnimation.includes("run") && self.sprite.currentAnimation == "run" + direction) {
                     return;
                 }
                 self.sprite.setAnimation("run" + direction);
+            } else {
+                if (self.sprite.currentAnimation.includes("idle") && self.sprite.currentAnimation == "idle" + direction) {
+                    return;
+                }
+                self.sprite.setAnimation("idle" + direction);
             }
         });
     }
