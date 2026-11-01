@@ -38,6 +38,7 @@ export default class PlayerScript extends GameScript {
             .setLayer(3)
             .setRadius(50)
             .setPosition(Vector2(-100, -100))
+            .setVelocity(Vector2(0, 50))
 
 
         // Player Loading
@@ -86,10 +87,10 @@ export default class PlayerScript extends GameScript {
             // self.setPosition(this.engine.input.getMousePosition())
         });
 
-        this.objects["circle"].bindToUpdate((self, delta, time) => {
-            self.setPosition(this.engine.camera.screenToWorld(this.engine.input.getMousePosition()));
-            // self.setPosition(this.engine.input.getMousePosition())
-        });
+        // this.objects["circle"].bindToUpdate((self, delta, time) => {
+        //     self.setPosition(this.engine.camera.screenToWorld(this.engine.input.getMousePosition()));
+        //     // self.setPosition(this.engine.input.getMousePosition())
+        // });
 
         this.objects["player"].bindToUpdate((self, delta, time) => {
             if (!this.objects["player"].custom_attributes["canMove"]) {
@@ -115,7 +116,9 @@ export default class PlayerScript extends GameScript {
 
             let moveSpeed = 400;
 
+            let mouseDelta = this.engine.input.getWheelDelta();
 
+            this.engine.camera.setZoom(this.engine.camera.zoom - mouseDelta * 0.001);
 
             if (x == 1) {
                 direction = "Right";

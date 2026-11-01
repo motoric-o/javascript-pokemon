@@ -26,17 +26,6 @@ const test2 = new GameObject()
 
 engine.addObject(test2);
 
-const circle = new GameObject()
-    .setName("testcircle")
-    .setVertices([
-        Vector2(0, 0)
-    ])
-    .setRadius(20)
-    .setColor(Color(0, 0, 0))
-    .setPosition(-1, -1)
-
-engine.addObject(circle)
-
 const player = new PlayerScript(engine);
 const sounds = new GameSounds(engine, player.objects["player"]);
 
