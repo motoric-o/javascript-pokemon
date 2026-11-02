@@ -20,6 +20,7 @@ export default class PlayerScript extends GameScript {
                 Vector2(12, 12),
                 Vector2(8, 25)
             ])
+            .setVisible(false)
             .setLayer(3)
             .setUseCamera(false)
             .setFills([
@@ -36,7 +37,7 @@ export default class PlayerScript extends GameScript {
             .addToCollisionLayerBlacklist(2)
             .setLayer(1)
             .addAttribute("canMove", false)
-            .setPosition(Vector2(1000, 1000))
+            // .setPosition(Vector2(1000, 1000))
             .setScale(Vector2(5, 5));
 
         const playerHitbox = new GameObject()

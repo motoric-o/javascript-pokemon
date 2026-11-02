@@ -2,7 +2,7 @@ import GameScript from "./GameScript.js";
 import GameObject from "../lib/engine/object.js";
 import { Color, Vector2 } from "../lib/graphics/primitive/index.js";
 import { createFillInfo } from "../lib/util/graphics.js";
-import { createAsset } from "../lib/util/graphics.js";
+import { createAsset, createAnimation } from "../lib/util/graphics.js";
 import Button from "../prefab/button.js";
 
 export default class GameMenu extends GameScript {
@@ -50,7 +50,7 @@ export default class GameMenu extends GameScript {
                 Vector2(0, 0),
             ])
             .setColor(Color(0, 0, 0))
-            .setPosition(Vector2(0, 50))
+            .setPosition(Vector2(-540, -200))
             .setLayer(2);
 
         const menuTextAsset = await createAsset('../assets/ui/logo/pokemon_logo.webp');
@@ -63,17 +63,33 @@ export default class GameMenu extends GameScript {
             .setScale(Vector2(0.5, 0.5))
             .setUseCamera(false);
 
+        const asset = await createAsset('./assets/player/player-red-sprite-sheet.png')
+
+        const sprite = new GameObject()
+            .setName("test")
+            .setSprite(asset, Vector2(17, 24))
+            .setColor(Color(0, 0, 0))
+            .setLayer(1)
+            .setPosition(Vector2(-540, -200))
+            .setScale(Vector2(5, 5));
+
+        sprite.sprite.addAnimation(createAnimation("idle", [1, -1], "C", 10));
+        sprite.sprite.setAnimation("idle");
+
         const startButton = Button("Start Game", this.engine);
         startButton.setPosition(Vector2(640, 500));
+        startButton.setVisible(false);
 
         this.engine.camera.setTarget(menuCoord);
-        
+
         this.engine.addObject(menuCoord);
         this.engine.addObject(menuText);
         this.engine.addObject(startButton);
+        this.engine.addObject(sprite);
         this.objects["menu-coord"] = menuCoord;
         this.objects["menu-text"] = menuText;
         this.objects["start-button"] = startButton;
+        this.objects["sprite"] = sprite;
     }
 
     async loadAssets() {
@@ -96,11 +112,14 @@ export default class GameMenu extends GameScript {
                 }
 
                 if (this.engine.state == "menu" && self.fills[0].colors[0].a <= 0) {
+                    this.objects["start-button"].setVisible(true);
                     this.objects["loading-screen"].destroy();
                     this.objects["loading-text"].destroy();
                 }
             });
         }, 5000);
+
+        this.engine.physics.findItem("cursor").setVisible(true);
 
         this.objects["start-button"].bindToUpdate((self, delta, time) => {
             if (self.custom_attributes["clicked"] && this.engine.state == "menu") {
@@ -108,7 +127,7 @@ export default class GameMenu extends GameScript {
                 const player = this.engine.physics.findItem("player");
                 this.engine.camera.setTarget(player);
                 player.custom_attributes["canMove"] = true;
-                
+
                 for (let [key, obj] of Object.entries(this.objects)) {
                     obj.destroy();
                 }

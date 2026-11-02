@@ -20,7 +20,7 @@ export default class MapScript extends GameScript {
             .addToCollisionLayerBlacklist(2)
             .setLayer(0)
             .addAttribute("canMove", false)
-            .setPosition(Vector2(1000, 1000))
+            .setPosition(Vector2(0, 0))
             .setScale(Vector2(5, 5));
         this.objects["map"] = map;
         this.engine.addObject(map);
