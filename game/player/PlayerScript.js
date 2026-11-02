@@ -39,6 +39,19 @@ export default class PlayerScript extends GameScript {
             .setPosition(Vector2(1000, 1000))
             .setScale(Vector2(5, 5));
 
+        const playerHitbox = new GameObject()
+            .setName("player-hitbox")
+            .setVertices([
+                Vector2(-7, -8),
+                Vector2(7, -8),
+                Vector2(7, 10),
+                Vector2(-7, 10)
+            ])
+            .setColor(Color(0, 0, 0))
+            .setLayer(1);
+
+        player.addChild(playerHitbox);
+
         const runDown = createAnimation("runDown", [0, 1, 2, 1, -1], "C", 10);
         const runUp = createAnimation("runUp", [3, 4, 5, 4, -1], "C", 10);
         const runLeft = createAnimation("runLeft", [6, 7, 8, 7, -1], "C", 10);
@@ -73,6 +86,33 @@ export default class PlayerScript extends GameScript {
             self.setPosition(this.engine.input.getMousePosition())
         });
 
+        this.objects["player"].bindOnCollision((self, hit) => {
+            if (hit.name == "boundBox") {
+                const contact = self.getContactPoints(hit);
+                const selfBounds = self.getMinMaxCoords();
+                const objBounds = hit.getMinMaxCoords();
+
+                const overlapX = Math.min(selfBounds.maxX, objBounds.maxX) - Math.max(selfBounds.minX, objBounds.minX);
+                const overlapY = Math.min(selfBounds.maxY, objBounds.maxY) - Math.max(selfBounds.minY, objBounds.minY);
+
+                if (overlapY < overlapX) {
+                    if (self.position.y < hit.position.y) {
+                        self.position.y -= overlapY;
+                    } else {
+                        self.position.y += overlapY;
+                    }
+                    self.velocity.y = 0;
+                } else {
+                    if (self.position.x < hit.position.x) {
+                        self.position.x -= overlapX;
+                    } else {
+                        self.position.x += overlapX;
+                    }
+                    self.velocity.x = 0;
+                }
+            }
+        });
+
         this.objects["player"].bindToUpdate((self, delta, time) => {
             if (!this.objects["player"].custom_attributes["canMove"]) {
                 return;
@@ -87,10 +127,10 @@ export default class PlayerScript extends GameScript {
             if (this.engine.input.isKeyDown("A")) {
                 x = -1;
             }
-            if (this.engine.input.isKeyDown("w")) {
+            if (this.engine.input.isKeyDown("W")) {
                 y = -1;
             }
-            if (this.engine.input.isKeyDown("s")) {
+            if (this.engine.input.isKeyDown("S")) {
                 y = 1;
             }
 
@@ -111,7 +151,7 @@ export default class PlayerScript extends GameScript {
 
             if (this.engine.input.isKeyPressed(" ")) {
                 self.setPosition(Vector2(250, 250));
-                
+
                 this.engine.setState("encountering");
 
                 setTimeout(() => {

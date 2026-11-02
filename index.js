@@ -7,6 +7,7 @@ import { createAnimation, createAsset, createFillInfo, createShake, getFrame } f
 import GameSounds from "./game/GameSounds.js";
 import GameMenu from "./game/GameMenu.js";
 import PlayerScript from "./game/player/PlayerScript.js";
+import BoundBox from "./prefab/boundBox.js";
 
 const fontOptions = { font: "'Pokemon', monospace", size: 32, color: Color(255, 255, 255) };
 
@@ -28,6 +29,8 @@ const test2 = new GameObject()
 test2.sprite.addAnimation(createAnimation("idle", [1, -1], "C", 10));
 test2.sprite.setAnimation("idle");
 engine.addObject(test2);
+
+engine.addObject(BoundBox(Vector2(200, 400)))
 
 const menu = new GameMenu(engine);
 const player = new PlayerScript(engine);
