@@ -34,13 +34,19 @@ export default function Button(text, engine, options = {}) {
 
     button.addChild(buttonText);
 
-    button.bindToUpdate((self, delta, time) => {
-        if (!self.checkCollision(engine.physics.findItem("cursor"))) {
-            self.custom_attributes["hovered"] = false;
-        } else {
+    button.bindOnCollision((self, hit) => {
+        if (hit.name == "cursor") {
             self.custom_attributes["hovered"] = true;
         }
+    });
 
+    button.bindOnCollisionEnded((self, hit) => {
+        if (hit.name == "cursor") {
+            self.custom_attributes["hovered"] = false;
+        }
+    });
+
+    button.bindToUpdate((self, delta, time) => {
         if (self.custom_attributes["hovered"]) {
             self.fills[0].colors[0] = Color(100, 100, 100);
         } else {
