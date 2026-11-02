@@ -7,6 +7,7 @@ import { createAnimation, createAsset, createFillInfo, createShake, getFrame } f
 import GameSounds from "./game/GameSounds.js";
 import GameMenu from "./game/GameMenu.js";
 import PlayerScript from "./game/player/PlayerScript.js";
+import MapScript from "./game/MapScript.js";
 
 const fontOptions = { font: "'Pokemon', monospace", size: 32, color: Color(255, 255, 255) };
 
@@ -32,11 +33,15 @@ engine.addObject(test2);
 const menu = new GameMenu(engine);
 const player = new PlayerScript(engine);
 const sounds = new GameSounds(engine, player.objects["player"]);
+const map = new MapScript(engine);
 
 await menu.loadAssets();
 await player.loadAssets();
 await sounds.loadAssets();
+await map.loadAssets();
+
 menu.start();
 
 player.start();
 sounds.start();
+map.start();
