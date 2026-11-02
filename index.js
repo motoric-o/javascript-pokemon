@@ -7,10 +7,10 @@ import { createAnimation, createAsset, createFillInfo, createShake, getFrame } f
 import GameSounds from "./game/GameSounds.js";
 import PlayerScript from "./game/player/PlayerScript.js";
 
+const fontOptions = { font: "'Pokemon', monospace", size: 32, color: Color(255, 255, 255) };
 
 const engine = new GameEngine(1280, 720, 4);
 engine.setState("loading");
-engine.sound.setVolume(0.25);
 engine.start();
 
 const asset = await createAsset('./assets/player/player-red-sprite-sheet.png')
@@ -26,11 +26,54 @@ const test2 = new GameObject()
 
 engine.addObject(test2);
 
+const loadingScreen = new GameObject()
+    .setName("loading-screen")
+    .setVertices([
+        Vector2(0, 0),
+        Vector2(1280, 0),
+        Vector2(1280, 720),
+        Vector2(0, 720)
+    ])
+    .setColor(Color(0, 0, 0))
+    .setLayer(3)
+    .setFills([
+        createFillInfo("R", [Color(0, 0, 0)], Vector2(0, 0), Vector2(1280, 720))
+    ])
+    .setUseCamera(false);
+
+const loadingText = new GameObject()
+    .setName("loading-text")
+    .setText("Loading...", fontOptions)
+    .setPosition(Vector2(640, 360))
+    .setLayer(3)
+    .setUseCamera(false);
+
+engine.addObject(loadingScreen);
+engine.addObject(loadingText);
+
 const player = new PlayerScript(engine);
 const sounds = new GameSounds(engine, player.objects["player"]);
 
 await player.loadAssets();
 await sounds.loadAssets();
+
+setTimeout(() => {
+    loadingText.setText("Press any key to continue...", fontOptions);
+    engine.setState("menu-confirmation");
+
+    loadingScreen.bindToUpdate((self, delta, time) => {
+        if (engine.state == "menu" && self.fills[0].colors[0].a > 0) {
+            self.fills[0].colors[0].a = Math.max(0, self.fills[0].colors[0].a - 3);
+            const newOpts = { ...fontOptions, color: Color(255, 255, 255, self.fills[0].colors[0].a) };
+            loadingText.setText("Press any key to continue...", newOpts);
+        }
+
+        if (engine.state == "menu" && self.fills[0].colors[0].a <= 0) {
+            loadingScreen.destroy();
+            loadingText.destroy();
+        }
+    });
+}, 5000);
 
 player.start();
 sounds.start();

@@ -45,7 +45,7 @@ export default class GameSounds extends GameScript {
 
             if (this.engine.state == "encountering" && !debounces["encounter"]) {
                 this.engine.sound.stopMusic();
-                const sfx = this.engine.sound.playSFX("encounter");
+                const sfx = this.engine.sound.playSFX("encounter", 0.05);
                 debounces["encounter"] = true;
                 debounces["bgm-battle"] = false;
 

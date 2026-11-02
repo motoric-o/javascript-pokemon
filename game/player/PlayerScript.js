@@ -23,7 +23,8 @@ export default class PlayerScript extends GameScript {
             .setLayer(3)
             .setUseCamera(false)
             .setFills([
-                createFillInfo("BF", [Color(0, 255, 255), Color(0, 0, 0)], Vector2(2, 2))
+                createFillInfo("BF", [Color(255, 255, 255), Color(0, 0, 0)], Vector2(2, 2)),
+                createFillInfo("BF", [Color(255, 255, 255), Color(0, 0, 0)], Vector2(21, 8))
             ])
 
         // Player Loading
@@ -34,7 +35,7 @@ export default class PlayerScript extends GameScript {
             .setSprite(playerAsset, Vector2(17, 24))
             .addToCollisionLayerBlacklist(2)
             .setLayer(1)
-            .addAttribute("canMove", true)
+            .addAttribute("canMove", false)
             .setScale(Vector2(5, 5));
 
         const runDown = createAnimation("runDown", [0, 1, 2, 1, -1], "C", 10);
@@ -92,10 +93,6 @@ export default class PlayerScript extends GameScript {
 
             let moveSpeed = 400;
 
-            let mouseDelta = this.engine.input.getWheelDelta();
-
-            this.engine.camera.setZoom(this.engine.camera.zoom - mouseDelta * 0.001);
-
             if (x == 1) {
                 direction = "Right";
             } else if (x == -1) {
@@ -132,6 +129,14 @@ export default class PlayerScript extends GameScript {
                     return;
                 }
                 self.sprite.setAnimation("idle" + direction);
+            }
+        });
+
+        this.objects["player"].bindToUpdate((self, delta, time) => {
+            if (this.engine.state == "menu-confirmation") {
+                if (this.engine.input.keysPressed.length > 0 || this.engine.input.mouseButtonsPressed.length > 0) {
+                    this.engine.setState("menu");
+                }
             }
         });
     }
