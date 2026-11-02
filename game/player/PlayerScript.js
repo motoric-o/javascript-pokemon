@@ -31,11 +31,12 @@ export default class PlayerScript extends GameScript {
         const playerAsset = await createAsset('../../assets/player/player-red-sprite-sheet.png');
 
         const player = new GameObject()
-            .setName("Player")
+            .setName("player")
             .setSprite(playerAsset, Vector2(17, 24))
             .addToCollisionLayerBlacklist(2)
             .setLayer(1)
             .addAttribute("canMove", false)
+            .setPosition(Vector2(1000, 1000))
             .setScale(Vector2(5, 5));
 
         const runDown = createAnimation("runDown", [0, 1, 2, 1, -1], "C", 10);
@@ -55,6 +56,8 @@ export default class PlayerScript extends GameScript {
         player.sprite.addAnimation(idleUp);
         player.sprite.addAnimation(idleLeft);
         player.sprite.addAnimation(idleRight);
+
+        player.sprite.setAnimation("idleDown");
 
         this.objects["player"] = player;
         this.objects["cursor"] = cursor;
