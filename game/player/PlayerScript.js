@@ -50,7 +50,7 @@ export default class PlayerScript extends GameScript {
             .setColor(Color(0, 0, 0))
             .setLayer(1);
 
-        player.addChild(playerHitbox);
+        player.setHitbox(playerHitbox);
 
         const runDown = createAnimation("runDown", [0, 1, 2, 1, -1], "C", 10);
         const runUp = createAnimation("runUp", [3, 4, 5, 4, -1], "C", 10);
@@ -88,25 +88,28 @@ export default class PlayerScript extends GameScript {
 
         this.objects["player"].bindOnCollision((self, hit) => {
             if (hit.name == "boundBox") {
-                const contact = self.getContactPoints(hit);
-                const selfBounds = self.getMinMaxCoords();
+                const selfBounds = self.hitbox.getMinMaxCoords();
                 const objBounds = hit.getMinMaxCoords();
 
                 const overlapX = Math.min(selfBounds.maxX, objBounds.maxX) - Math.max(selfBounds.minX, objBounds.minX);
                 const overlapY = Math.min(selfBounds.maxY, objBounds.maxY) - Math.max(selfBounds.minY, objBounds.minY);
 
                 if (overlapY < overlapX) {
-                    if (self.position.y < hit.position.y) {
+                    if (self.hitbox.position.y < hit.position.y) {
                         self.position.y -= overlapY;
+                        self.hitbox.position.y -= overlapY;
                     } else {
                         self.position.y += overlapY;
+                        self.hitbox.position.y += overlapY;
                     }
                     self.velocity.y = 0;
-                } else {
-                    if (self.position.x < hit.position.x) {
+                } else if (overlapY >= overlapX) {
+                    if (self.hitbox.position.x < hit.position.x) {
                         self.position.x -= overlapX;
+                        self.hitbox.position.x -= overlapX;
                     } else {
                         self.position.x += overlapX;
+                        self.hitbox.position.x += overlapX;
                     }
                     self.velocity.x = 0;
                 }
