@@ -37,7 +37,7 @@ export default class PlayerScript extends GameScript {
             .addToCollisionLayerBlacklist(2)
             .setLayer(1)
             .addAttribute("canMove", false)
-            // .setPosition(Vector2(1000, 1000))
+            .setPosition(Vector2(1557, 1125))
             .setScale(Vector2(5, 5));
 
         const playerHitbox = new GameObject()
@@ -48,7 +48,7 @@ export default class PlayerScript extends GameScript {
                 Vector2(7, 10),
                 Vector2(-7, 10)
             ])
-            .setColor(Color(0, 0, 0))
+            .setVisible(false)
             .setLayer(1);
 
         player.setHitbox(playerHitbox);

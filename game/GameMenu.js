@@ -50,7 +50,7 @@ export default class GameMenu extends GameScript {
                 Vector2(0, 0),
             ])
             .setColor(Color(0, 0, 0))
-            .setPosition(Vector2(-540, -200))
+            .setPosition(Vector2(1557, 1125))
             .setLayer(2);
 
         const menuTextAsset = await createAsset('../assets/ui/logo/pokemon_logo.webp');
@@ -70,7 +70,7 @@ export default class GameMenu extends GameScript {
             .setSprite(asset, Vector2(17, 24))
             .setColor(Color(0, 0, 0))
             .setLayer(1)
-            .setPosition(Vector2(-540, -200))
+            .setPosition(Vector2(1557, 1125))
             .setScale(Vector2(5, 5));
 
         sprite.sprite.addAnimation(createAnimation("idle", [1, -1], "C", 10));
@@ -85,11 +85,11 @@ export default class GameMenu extends GameScript {
         this.engine.addObject(menuCoord);
         this.engine.addObject(menuText);
         this.engine.addObject(startButton);
-        this.engine.addObject(sprite);
+        // this.engine.addObject(sprite);
         this.objects["menu-coord"] = menuCoord;
         this.objects["menu-text"] = menuText;
         this.objects["start-button"] = startButton;
-        this.objects["sprite"] = sprite;
+        // this.objects["sprite"] = sprite;
     }
 
     async loadAssets() {
