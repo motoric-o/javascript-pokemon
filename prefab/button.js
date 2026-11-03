@@ -53,9 +53,9 @@ export default function Button(text, engine, options = {}) {
             self.fills[0].colors[0] = option.fillColor;
         }
 
-        if (self.custom_attributes["hovered"] && engine.input.isMousePressed(0)) {
+        if (self.custom_attributes["hovered"] && engine.input.isMousePressed(0) && self.visible) {
             self.custom_attributes["clicked"] = true;
-        } else if (self.custom_attributes["hovered"] && engine.input.isMouseReleased(0)) {
+        } else if (self.custom_attributes["hovered"] && engine.input.isMouseReleased(0) && self.visible) {
             self.custom_attributes["clicked"] = false;
         }
     });
