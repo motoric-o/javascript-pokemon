@@ -1,0 +1,25 @@
+{
+    "base_stats": {
+        "health": 100,
+        "attack": 10,
+        "defense": 10,
+        "speed": 10
+    },
+    "sprite": {
+        "sheet": "./assets/pokemons/squirtle-sprite-sheet.png",
+        "frameDimX": 64,
+        "frameDimY": 64
+    },
+    "attacks": {
+        "Bubble Gun": {
+            "sheet": "./assets/moves/bubble-gun-sprite-sheet.png",
+            "frameDimX": 32,
+            "frameDimY": 32,
+            "animDirection": "C",
+            "animFrameRate": 10,
+            "spriteScale": 1,
+            "base_power": 10,
+            "accuracy": 0.75
+        }
+    }
+}
