@@ -1,0 +1,32 @@
+{
+    "base_stats": {
+        "health": 100,
+        "attack": 10,
+        "defense": 10,
+        "speed": 10
+    },
+    "sprite": {
+        "sheet": "./assets/pokemons/charmander-sprite-sheet.png",
+        "frameDimX": 64,
+        "frameDimY": 64,
+        "spriteScale": 2
+    },
+    "attacks": {
+        "Scratch" : {
+            "base_power": 10,
+            "accuracy": 0.75,
+            "type": "Normal"
+        },
+        "Fireball": {
+            "sheet": "./assets/moves/fireball-sprite-sheet.png",
+            "frameDimX": 32,
+            "frameDimY": 46,
+            "animDirection": "R",
+            "animFrameRate": 10,
+            "spriteScale": 1,
+            "base_power": 10,
+            "accuracy": 0.75,
+            "type": "Fire"
+        }
+    }
+}

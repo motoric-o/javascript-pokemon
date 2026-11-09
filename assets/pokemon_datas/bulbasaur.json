@@ -1,0 +1,33 @@
+{
+    "base_stats": {
+        "health": 100,
+        "attack": 10,
+        "defense": 10,
+        "speed": 10
+    },
+    "sprite": {
+        "sheet": "./assets/pokemons/bulbasaur-sprite-sheet.png",
+        "frameDimX": 64,
+        "frameDimY": 64,
+        "spriteScale": 2
+    },
+    "attacks": {
+        "Tackle" : {
+            "base_power": 10,
+            "accuracy": 0.75,
+            "type": "Normal"
+        },
+        "Seed Shot": {
+            "name": "Seed Shot",
+            "sheet": "./assets/moves/seed-shot-sprite-sheet.png",
+            "frameDimX": 32,
+            "frameDimY": 29,
+            "animDirection": "R",
+            "animFrameRate": 10,
+            "spriteScale": 1,
+            "base_power": 10,
+            "accuracy": 0.75,
+            "type": "Earth"
+        }
+    }
+}
