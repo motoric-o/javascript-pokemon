@@ -9,22 +9,6 @@ export default class Dialogue {
                 "not_effective": "It's not very effective...",
                 "immune": "It doesn't affect {name}"
             },
-            "status": {
-                "dead": "{name} is knocked out!",
-                "faint": "{name} has fainted!",
-                "poison": {
-                    "inflict": "{name} was poisoned!",
-                    "damage_tick": "{name} is hurt by poison!"
-                },
-                "burn": {
-                    "inflict": "{name} was burned!",
-                    "damage_tick": "{name} is hurt by its burn!"
-                },
-                "freeze": {
-                    "inflict": "{name} was frozen solid!",
-                    "damage_tick": "{name} thawed out!"
-                },
-            },
             "battle": {
                 "encounter": "A wild {name} appeared!",
                 "send_out": "Go! {name}!",

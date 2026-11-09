@@ -99,6 +99,9 @@ export default class PlayerScript extends GameScript {
             if (this.engine.state == "battle") {
                 return;
             }
+            if (this.engine.state == "encountering") {
+                return;
+            }
 
             if (hit.name == "boundBox") {
                 const selfBounds = self.hitbox.getMinMaxCoords();
@@ -127,9 +130,45 @@ export default class PlayerScript extends GameScript {
                     self.velocity.x = 0;
                 }
             }
+
+            if (hit.name == "battleZone") {
+                if (this.engine.state !== "roam" || this.battleCooldown) {
+                    return;
+                }
+
+                this.battleCooldown = true;
+                this.engine.setState("encountering");
+
+                self.setVelocity(Vector2(0,0));
+                self.custom_attributes["canMove"] = false;
+                self.sprite.setAnimation("idle" + direction);
+                
+
+                setTimeout(() => {
+                    this.engine.setState("battle");
+
+                    if (Math.random() < 0.5) {
+                        this.battle.start(this.pokemon, this.battle.pokemons[1])
+                    }
+                    else{
+                        this.battle.start(this.pokemon, this.battle.pokemons[2])
+                    }
+                }, 1500);
+            }
         });
 
         this.objects["player"].bindToUpdate((self, delta, time) => {
+            if (this.engine.state === "battle") {
+                this.wasInBattle = true;
+            } else if (this.engine.state === "roam" && this.wasInBattle) {
+                this.wasInBattle = false;
+                this.battleCooldown = true;
+                setTimeout(() => {
+                    this.battleCooldown = false;
+                }, 5000);
+            }
+
+
             if (this.engine.state == "battle" || this.engine.state == "encountering" || this.engine.state == "menu" || this.engine.state == "menu-confirmation" || this.engine.state == "loading") {
                 self.custom_attributes["canMove"] = false;
                 if (this.engine.state == "battle") {

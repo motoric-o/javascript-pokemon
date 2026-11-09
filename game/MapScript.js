@@ -4,6 +4,7 @@ import { Vector2 } from "./../lib/graphics/primitive/vector2.js";
 import { createAsset } from "../../lib/util/graphics.js";
 import GameScript from "./GameScript.js";
 import BoundBox from "../prefab/boundBox.js";
+import BattleZone from "../prefab/battleZone.js";
 
 
 export default class MapScript extends GameScript {
@@ -29,6 +30,8 @@ export default class MapScript extends GameScript {
         const collisionMapJson = await collisionMapResponse.json();
 
         const collisionMap = collisionMapJson.layers.find(layer => layer.name == "Collisions");
+        const battleZoneMap = collisionMapJson.layers.find(layer => layer.name == "Battle Zones");
+
         const height = collisionMap.height;
         const width = collisionMap.width;
 
@@ -38,6 +41,12 @@ export default class MapScript extends GameScript {
                 const i = row * width + col;
 
                 const tileId = collisionMap.data[i];
+                const battleZoneTileId = battleZoneMap.data[i];
+
+                if (battleZoneTileId != 0) {
+                    const battleZone = BattleZone(Vector2(60, 60), Vector2(col * 60 + 30, row * 60 + 30));
+                    this.engine.addObject(battleZone);
+                }
 
                 if (tileId == 0) {
                     col++

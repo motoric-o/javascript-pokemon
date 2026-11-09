@@ -12,6 +12,11 @@
         "spriteScale": 2
     },
     "attacks": {
+        "Scratch" : {
+            "base_power": 10,
+            "accuracy": 0.75,
+            "type": "Normal"
+        },
         "Fireball": {
             "sheet": "./assets/moves/fireball-sprite-sheet.png",
             "frameDimX": 32,
