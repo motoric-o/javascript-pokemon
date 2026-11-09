@@ -4,6 +4,7 @@ import GameSounds from "./game/GameSounds.js";
 import GameMenu from "./game/GameMenu.js";
 import PlayerScript from "./game/player/PlayerScript.js";
 import MapScript from "./game/MapScript.js";
+import Battle from "./game/pokemon/Battle.js";
 
 const fontOptions = { font: "'Pokemon', monospace", size: 32, color: Color(255, 255, 255) };
 
@@ -13,10 +14,12 @@ engine.setState("loading");
 engine.start();
 
 const menu = new GameMenu(engine);
-const player = new PlayerScript(engine);
-const sounds = new GameSounds(engine, player.objects["player"]);
 const map = new MapScript(engine);
+const battle = new Battle(engine);
+const player = new PlayerScript(engine, battle);
+const sounds = new GameSounds(engine, player.objects["player"]);
 
+await battle.loadAssets();
 await menu.loadAssets();
 await player.loadAssets();
 await sounds.loadAssets();

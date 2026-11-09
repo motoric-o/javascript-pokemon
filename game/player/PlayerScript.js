@@ -3,10 +3,15 @@ import { Color } from "../../lib/graphics/primitive/color.js";
 import { Vector2 } from "../../lib/graphics/primitive/vector2.js";
 import { createAnimation, createAsset, createFillInfo } from "../../lib/util/graphics.js";
 import GameScript from "../GameScript.js";
+import Pokemon from "../pokemon/pokemonClass.js";
 
 export default class PlayerScript extends GameScript {
-    constructor(engine) {
+    constructor(engine, battle) {
         super(engine);
+
+        this.battle = battle;
+
+        this.pokemon = null;
     }
 
     async loadAssets() {
@@ -77,6 +82,9 @@ export default class PlayerScript extends GameScript {
         this.objects["cursor"] = cursor;
         this.engine.addObject(player);
         this.engine.addObject(cursor);
+
+        this.pokemon = await Pokemon.create("charmander");
+        this.pokemon.setNick("Broski");
     }
 
     start() {
@@ -88,6 +96,10 @@ export default class PlayerScript extends GameScript {
         });
 
         this.objects["player"].bindOnCollision((self, hit) => {
+            if (this.engine.state == "battle") {
+                return;
+            }
+
             if (hit.name == "boundBox") {
                 const selfBounds = self.hitbox.getMinMaxCoords();
                 const objBounds = hit.getMinMaxCoords();
@@ -118,7 +130,21 @@ export default class PlayerScript extends GameScript {
         });
 
         this.objects["player"].bindToUpdate((self, delta, time) => {
-            if (!this.objects["player"].custom_attributes["canMove"]) {
+            if (this.engine.state == "battle" || this.engine.state == "encountering" || this.engine.state == "menu" || this.engine.state == "menu-confirmation" || this.engine.state == "loading") {
+                self.custom_attributes["canMove"] = false;
+                if (this.engine.state == "battle") {
+                    self.setVisible(false);
+                } else {
+                    self.setVisible(true);
+                    self.hitbox.setVisible(false);
+                }
+            } else {
+                self.custom_attributes["canMove"] = true;
+                self.setVisible(true);
+                self.hitbox.setVisible(false);
+            }
+
+            if (!self.custom_attributes["canMove"] || this.engine.state == "battle") {
                 return;
             }
 
@@ -154,12 +180,12 @@ export default class PlayerScript extends GameScript {
 
 
             if (this.engine.input.isKeyPressed(" ")) {
-                self.setPosition(Vector2(250, 250));
-
                 this.engine.setState("encountering");
+                moveSpeed = 0;
 
                 setTimeout(() => {
                     this.engine.setState("battle");
+                    this.battle.start(this.pokemon, this.battle.pokemons[1])
                 }, 1000);
             }
 

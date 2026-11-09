@@ -20,7 +20,6 @@ export default class MapScript extends GameScript {
             .setSprite(mapAsset)
             .addToCollisionLayerBlacklist(2)
             .setLayer(0)
-            .addAttribute("canMove", false)
             .setPosition(Vector2(2100, 1290))
             .setScale(Vector2(5, 5));
         this.objects["map"] = map;
@@ -63,5 +62,15 @@ export default class MapScript extends GameScript {
                 this.engine.addObject(boundBox)
             }
         }
+    }
+
+    start() {
+        this.objects["map"].bindToUpdate((self, delta, time) => {
+            if (this.engine.state == "battle") {
+                self.setVisible(false);
+            } else {
+                self.setVisible(true);
+            }
+        });
     }
 }

@@ -3,10 +3,11 @@ import { Vector2 } from "../../lib/graphics/primitive/index.js";
 import { createAsset, getFrame } from "../../lib/util/graphics.js";
 
 export default class Pokemon extends GameObject {
-    constructor() {
+    constructor(pokemonName) {
         super();
 
         this.nick = null;
+        this.pokemon = pokemonName;
         this.health = null;
         this.attack = null;
         this.defense = null;
@@ -25,7 +26,7 @@ export default class Pokemon extends GameObject {
 
         const spriteAsset = await createAsset(data_sprite["sheet"]);
 
-        const pokemon = new Pokemon()
+        const pokemon = new Pokemon(pokemonName)
             .setNick(pokemonName)
             .setSprite(spriteAsset, Vector2(data_sprite["frameDimX"], data_sprite["frameDimY"]))
             .setScale(Vector2(data_sprite["spriteScale"], data_sprite["spriteScale"]))
@@ -33,6 +34,8 @@ export default class Pokemon extends GameObject {
             .setAttack(data_stats["attack"])
             .setDefense(data_stats["defense"])
             .setSpeed(data_stats["speed"])
+            .setLayer(2)
+            .setUseCamera(false)
             .setAttackSet(data_attack);
 
         return pokemon;
