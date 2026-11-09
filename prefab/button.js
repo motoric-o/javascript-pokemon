@@ -4,7 +4,7 @@ import { createFillInfo } from "../lib/util/graphics.js";
 
 export default function Button(text, engine, options = {}) {
     const fontOptions = engine.defaultFontOptions;
-    const defaultOptions = { size: Vector2(200, 50), color: Color(0, 0, 0), fillColor: Color(150, 150, 150) };
+    const defaultOptions = { size: Vector2(200, 50), color: Color(0, 0, 0), fillColor: Color(150, 150, 150), layer: 2 };
     const option = { ...defaultOptions, ...options };
 
     const button = new GameObject()
@@ -15,7 +15,7 @@ export default function Button(text, engine, options = {}) {
             Vector2(option.size.x / 2, option.size.y / 2),
             Vector2(-option.size.x / 2, option.size.y / 2)
         ])
-        .setLayer(2)
+        .setLayer(option.layer)
         .setUseCamera(false)
         .setColor(option.color)
         .addAttribute("isButton", true)
@@ -29,7 +29,7 @@ export default function Button(text, engine, options = {}) {
         .setName("button-text")
         .setText(text, fontOptions)
         .setLocalPosition(Vector2(0, 7))
-        .setLayer(2)
+        .setLayer(option.layer)
         .setUseCamera(false);
 
     button.addChild(buttonText);

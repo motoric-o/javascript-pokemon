@@ -26,7 +26,7 @@ export default class PlayerScript extends GameScript {
                 Vector2(8, 25)
             ])
             .setVisible(false)
-            .setLayer(3)
+            .setLayer(4)
             .setUseCamera(false)
             .setFills([
                 createFillInfo("BF", [Color(255, 255, 255), Color(0, 0, 0)], Vector2(2, 2)),

@@ -8,7 +8,7 @@ import Battle from "./game/pokemon/Battle.js";
 
 const fontOptions = { font: "'Pokemon', monospace", size: 32, color: Color(255, 255, 255) };
 
-const engine = new GameEngine(1280, 720, 4);
+const engine = new GameEngine(1280, 720, 5);
 engine.setDefaultFontOptions(fontOptions);
 engine.setState("loading");
 engine.start();
