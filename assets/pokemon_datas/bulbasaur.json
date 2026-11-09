@@ -8,7 +8,8 @@
     "sprite": {
         "sheet": "./assets/pokemons/bulbasaur-sprite-sheet.png",
         "frameDimX": 64,
-        "frameDimY": 64
+        "frameDimY": 64,
+        "spriteScale": 2
     },
     "attacks": {
         "Seed Shot": {

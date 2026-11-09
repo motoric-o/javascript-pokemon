@@ -28,6 +28,7 @@ export default class Pokemon extends GameObject {
         const pokemon = new Pokemon()
             .setNick(pokemonName)
             .setSprite(spriteAsset, Vector2(data_sprite["frameDimX"], data_sprite["frameDimY"]))
+            .setScale(Vector2(data_sprite["spriteScale"], data_sprite["spriteScale"]))
             .setHealth(data_stats["health"])
             .setAttack(data_stats["attack"])
             .setDefense(data_stats["defense"])
