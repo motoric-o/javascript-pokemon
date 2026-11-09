@@ -70,6 +70,107 @@ export default class Battle extends GameScript {
         this.objects["mainactionpanel"] = mainpanel;
         this.objects["actions"] = actions;
         this.objects["infopanel"] = infopanel;
+
+        // Create Health Bars
+
+        const playerHealthBG = new GameObject()
+            .setName("player-health-bg")
+            .setVertices([
+                Vector2(-160, -35),
+                Vector2(160, -35),
+                Vector2(160, 20),
+                Vector2(-160, 20)
+            ])
+            .setFills([
+                createFillInfo("R", [Color(150, 150, 150), Color(0, 0, 0)], Vector2(-159, -34), Vector2(319, 55))
+            ])
+            .setPosition(Vector2(380, 280))
+            .setLayer(3)
+            .setUseCamera(false)
+            .setVisible(false);
+
+        this.engine.addStaticObject(playerHealthBG);
+        this.objects["player-health-bg"] = playerHealthBG;
+
+        const playerName = new GameObject()
+            .setName("player-name")
+            .setText("Player", { ...this.engine.defaultFontOptions, size: 16 })
+            .setPosition(Vector2(380, 262))
+            .setLayer(3)
+            .setUseCamera(false)
+            .setVisible(false);
+
+        this.engine.addStaticObject(playerName);
+        this.objects["player-name"] = playerName;
+
+        const playerHealthBar = new GameObject()
+            .setName("player-health-bar")
+            .setVertices([
+                Vector2(-150, -10),
+                Vector2(150, -10),
+                Vector2(150, 10),
+                Vector2(-150, 10)
+            ])
+            .setFills([
+                createFillInfo("R", [Color(0, 255, 0)], Vector2(-149, -9), Vector2(299, 18))
+            ])
+            .setPosition(Vector2(380, 280))
+            .setLayer(3)
+            .setUseCamera(false)
+            .setVisible(false);
+            
+        this.engine.addStaticObject(playerHealthBar);
+        this.objects["player-health-bar"] = playerHealthBar;        
+
+        const targetHealthBG = new GameObject()
+            .setName("target-health-bg")
+            .setVertices([
+                Vector2(-160, -35),
+                Vector2(160, -35),
+                Vector2(160, 20),
+                Vector2(-160, 20)
+            ])
+            .setFills([
+                createFillInfo("R", [Color(150, 150, 150), Color(0, 0, 0)],Vector2(-159, -34), Vector2(319, 55))
+            ])
+            .setPosition(Vector2(1030, 80))
+            .setLayer(3)
+            .setUseCamera(false)
+            .setVisible(false);
+
+        this.engine.addStaticObject(targetHealthBG);
+        this.objects["target-health-bg"] = targetHealthBG;
+
+        const targetName = new GameObject()
+            .setName("target-name")
+            .setText("Target", { ...this.engine.defaultFontOptions, size: 16 })
+            .setPosition(Vector2(1030, 62))
+            .setLayer(3)
+            .setUseCamera(false)
+            .setVisible(false);
+
+        this.engine.addStaticObject(targetName);
+        this.objects["target-name"] = targetName;
+
+
+        const targetHealthBar = new GameObject()
+            .setName("target-health-bar")
+            .setVertices([
+                Vector2(-150, -10),
+                Vector2(150, -10),
+                Vector2(150, 10),
+                Vector2(-150, 10)
+            ])
+            .setFills([
+                createFillInfo("R", [Color(0, 255, 0)], Vector2(-149, -9), Vector2(299, 18))
+            ])
+            .setPosition(Vector2(1030, 80))
+            .setLayer(3)
+            .setUseCamera(false)
+            .setVisible(false);
+
+        this.engine.addStaticObject(targetHealthBar);
+        this.objects["target-health-bar"] = targetHealthBar;
     }
 
     createActionPanel() {
@@ -140,31 +241,23 @@ export default class Battle extends GameScript {
 
         const attackBtn = Button("Attack", this.engine, btnOptions)
             .setName("attack-btn")
-            .setLocalPosition(Vector2(-190, 0))
-            .setUseCamera(false);
-
-        const catchBtn = Button("Catch", this.engine, btnOptions)
-            .setName("catch-btn")
-            .setLocalPosition(Vector2(0, 0))
+            .setLocalPosition(Vector2(-130, 0))
             .setUseCamera(false);
 
         const fleeBtn = Button("Flee", this.engine, btnOptions)
             .setName("flee-btn")
-            .setLocalPosition(Vector2(190, 0))
+            .setLocalPosition(Vector2(130, 0))
             .setUseCamera(false);
 
         actions.addChild(attackBtn);
-        actions.addChild(catchBtn);
         actions.addChild(fleeBtn);
 
         actions.setVisible(false);
 
         this.engine.addObject(attackBtn);
-        this.engine.addObject(catchBtn);
         this.engine.addObject(fleeBtn);
 
         this.objects["attack-btn"] = attackBtn;
-        this.objects["catch-btn"] = catchBtn;
         this.objects["flee-btn"] = fleeBtn;
 
         return actions;
@@ -177,51 +270,55 @@ export default class Battle extends GameScript {
 
         const btnOptions = { size: Vector2(170, 50), layer: 3 };
 
-        // const attackBtn = Button("Attack", this.engine, btnOptions)
-        //     .setName("attack-btn")
-        //     .setLocalPosition(Vector2(-190, 0))
-        //     .setUseCamera(false);
+        for (let attackName in attackSet) {
+            const attackBtn = Button(attackName, this.engine, btnOptions)
+                .setName(`${attackName}-btn`)
+                .setLocalPosition(Vector2(-130 + (Object.keys(attackSet).indexOf(attackName) * 260), 0))
+                .setUseCamera(false);
+            attacks.addChild(attackBtn);
+            this.engine.addObject(attackBtn);
+            this.objects[`${attackName}-btn`] = attackBtn;
 
-        // const catchBtn = Button("Catch", this.engine, btnOptions)
-        //     .setName("catch-btn")
-        //     .setLocalPosition(Vector2(0, 0))
-        //     .setUseCamera(false);
-
-        // const fleeBtn = Button("Flee", this.engine, btnOptions)
-        //     .setName("flee-btn")
-        //     .setLocalPosition(Vector2(190, 0))
-        //     .setUseCamera(false);
-
-        for (let [key, value] of Object.entries(attackSet)) {
-            
         }
-
-        // attacks.addChild(attackBtn);
-        // attacks.addChild(catchBtn);
-        // attacks.addChild(fleeBtn);
-
-        // this.engine.addObject(attackBtn);
-        // this.engine.addObject(catchBtn);
-        // this.engine.addObject(fleeBtn);
-
-        // this.objects["attack-btn"] = attackBtn;
-        // this.objects["catch-btn"] = catchBtn;
-        // this.objects["flee-btn"] = fleeBtn;
 
         return attacks;
     }
 
     start(player, target) {
+
+        if (this.objects["attacks"]) {
+            for (let child of this.objects["attacks"].children) {
+                child.destroy();
+            }
+        }
+
+        player.health = 100
+        player.maxHealth = player.health;
+        target.health = 100
+        target.maxHealth = target.health;
+
+        this.objects["player-health-bar"].fills[0].size.x = 300;
+        this.objects["target-health-bar"].fills[0].size.x = 300;
+
         this.objects["battle-bg"].setVisible(true);
         this.objects["attbg"].setVisible(true);
         this.objects["mainactionpanel"].setVisible(true);
+        this.objects["actions"].setVisible(true);
         this.objects["infopanel"].setVisible(true);
+        this.objects["infotext"].setText("What will you do?", { ...this.engine.defaultFontOptions, size: 28 });
+
+        player.setVisible(true);
+        target.setVisible(true);
 
         const movePlayer = (self, delta, time) => {
             if (self.position.x < 375) {
                 self.position.x += 1500 * delta;
             } else {
                 self.removeFromUpdateBind(movePlayer);
+                this.objects["player-health-bg"].setVisible(true);
+                this.objects["player-health-bar"].setVisible(true);
+                this.objects["player-name"].setText(player.nick.toUpperCase(), { ...this.engine.defaultFontOptions, size: 16 })
+                this.objects["player-name"].setVisible(true);
             }
         };
 
@@ -230,6 +327,10 @@ export default class Battle extends GameScript {
                 self.position.x -= 1500 * delta;
             } else {
                 self.removeFromUpdateBind(moveTarget);
+                this.objects["target-health-bg"].setVisible(true);
+                this.objects["target-health-bar"].setVisible(true);
+                this.objects["target-name"].setText(target.nick.toUpperCase(), { ...this.engine.defaultFontOptions, size: 16 })
+                this.objects["target-name"].setVisible(true);
             }
         };
 
@@ -243,10 +344,204 @@ export default class Battle extends GameScript {
         target.setPosition(Vector2(1500, 200));
         target.setScale(Vector2(3, 3));
 
-        this.engine.addObject(player);
-        this.engine.addObject(target);
+        if (!this.engine.physics.objects.includes(player)) 
+        {
+            this.engine.addObject(player);
+        }
+        if (!this.engine.physics.objects.includes(target))
+        {
+            this.engine.addObject(target);
+        }
 
         const attacks = this.createAttacks(player.attackSet);
+        this.objects["attacks"] = attacks;
+
+        const endBattle = () => {
+            this.engine.setState("roam");
+
+            this.objects["battle-bg"].setVisible(false);
+            this.objects["attbg"].setVisible(false);
+            this.objects["mainactionpanel"].setVisible(false);
+            this.objects["infopanel"].setVisible(false);
+            this.objects["player-health-bg"].setVisible(false);
+            this.objects["player-health-bar"].setVisible(false);
+            this.objects["player-name"].setVisible(false);
+            this.objects["target-health-bg"].setVisible(false);
+            this.objects["target-health-bar"].setVisible(false);
+            this.objects["target-name"].setVisible(false);
+
+            player.setVisible(false);
+            target.setVisible(false);
+        }
+
+        const handleTargetDead = () => {
+            this.objects["infotext"].setText(`${target.nick.toUpperCase()} fainted!`, { ...this.engine.defaultFontOptions, size: 28 });
+            setTimeout(() => {
+                endBattle();
+            }, 2000);
+        }
+
+        for (let attackName in player.attackSet) {
+            const attackData = player.attackSet[attackName];
+            const attackBtn = this.objects[`${attackName}-btn`];
+
+            const onAttackBtnUpdate = (self, delta, time) => {
+                if (this.engine.state != "battle") {
+                    self.removeFromUpdateBind(onAttackBtnUpdate);
+                    return;
+                }
+
+                if (!this.canChooseAttack) {
+                    self.custom_attributes["clicked"] = false;
+                    return;
+                }
+
+                if (self.custom_attributes["clicked"]) {
+                    self.custom_attributes["clicked"] = false;
+                    attacks.setVisible(false);
+
+                    if (attackName === "Scratch" || attackName === "Tackle") {
+                        player.position.x += 30;
+
+                        setTimeout(() => {
+                            player.position.x -= 30;
+                            this.engine.sound.playSFX("hit");
+
+                            const damage = attackData.base_power;
+                            target.health = (Math.max(0, target.health - damage));
+
+                            const fullBarWidth = 300;
+                            const healthRatio = target.health / target.maxHealth;
+                            const newBarWidth = fullBarWidth * healthRatio;
+
+                            this.objects["target-health-bar"].fills[0].size.x = newBarWidth;
+
+                            this.objects["infotext"].setText(`${player.nick.toUpperCase()} used ${attackName}!`, { ...this.engine.defaultFontOptions, size: 28 });
+
+                            if (target.health <= 0) {
+                                handleTargetDead();
+                            }
+                            else {
+                                setTimeout(() => {
+                                    enemyAttack();
+                                }, 1500);
+                            }
+                        }, 200)
+                        
+                    }
+
+                    else if (attackName === "Fireball") {
+                        (async () => {
+                            const asset = await createAsset("./assets/moves/fireball-sprite-sheet.png");
+                            const fireball = new GameObject()
+                                .setName("fireball")
+                                .setSprite(asset, Vector2(32, 46))
+                                .setScale(Vector2(3, 3))
+                                .setPosition(Vector2(player.position.x + 50, player.position.y - 20))
+                                .setLayer(4)
+                                .setUseCamera(false);
+
+                            this.engine.addObject(fireball);
+
+                            let flyFrame = 0
+                            let flyTimer = 0
+                            let isImpacting = false;
+                            let impactFrame = 2;
+                            let impactTimer = 0;
+
+                            const moveFireball = (fbself, delta, time) => {
+                                if (!isImpacting) {
+                                    fbself.position.x += 1800 * delta;
+                                    fbself.position.y -= 420 * delta;
+                                
+                                    flyTimer += delta;
+
+                                    if (flyTimer >= 0.04) {
+                                        flyFrame = (flyFrame + 1) % 2;
+                                        fbself.sprite.setCurrentFrame([flyFrame, 0]);
+                                        flyTimer = 0;
+                                    }
+
+                                    if (fbself.position.x >= target.position.x) {
+                                        isImpacting = true;
+                                        fbself.sprite.setCurrentFrame([impactFrame, 0]);
+                                        this.engine.sound.playSFX("hit");
+                                    }
+
+                                } else {
+                                    impactTimer += delta;
+                                        if (impactTimer >= 0.035) {
+                                            impactTimer = 0
+                                            impactFrame++;
+
+                                        if (impactFrame > 5) {
+                                            fbself.removeFromUpdateBind(moveFireball);
+                                            fbself.destroy();
+
+                                            let damage = attackData.base_power;
+                                            
+                                            let effectMsg = "";
+                                            const targetName = target.pokemon.toLowerCase();
+
+                                            if (targetName === "bulbasaur") {
+                                                damage = Math.round(damage * 2);
+                                                effectMsg = " It's super effective!";
+                                            } else if (targetName === "squirtle") {
+                                                damage = Math.round(damage * 0.5);
+                                                effectMsg = " It's not very effective...";
+                                            }
+                                            
+                                            target.health = (Math.max(0, target.health - damage));
+                                            
+                                            const fullBarWidth = 300;
+                                            const healthRatio = target.health / target.maxHealth;
+                                            const newBarWidth = fullBarWidth * healthRatio;
+
+                                            this.objects["target-health-bar"].fills[0].size.x = newBarWidth;
+
+                                            this.objects["infotext"].setText(`${player.nick.toUpperCase()} used ${attackName}!`, { ...this.engine.defaultFontOptions, size: 28 });
+                                            
+                                            if (effectMsg) {
+                                                setTimeout(() => {
+                                                        this.objects["infotext"].setText(effectMsg, { ...this.engine.defaultFontOptions, size: 28 });
+                                                }, 1000);
+                                            }
+
+                                            const delay = effectMsg ? 2000 : 1000;
+                                            
+                                            if (target.health <= 0) {
+                                                setTimeout(() => {
+                                                    handleTargetDead();
+                                                }, effectMsg ? 3000 : 2000);
+                                            }
+                                            else {
+                                                setTimeout(() => {
+                                                    enemyAttack();
+                                                }, delay);
+                                            }
+                                    
+                                            
+                                        } else{
+                                            fbself.sprite.setCurrentFrame([impactFrame, 0]);
+                                        }
+                                    }
+                                }
+                            };
+
+                            fireball.bindToUpdate(moveFireball);
+                            
+                        })();
+                    }
+                }
+
+            };
+
+            attackBtn.bindToUpdate(onAttackBtnUpdate);
+        }
+
+        if (this.objects["mainactionpanel"].children.includes(this.objects["attacks"])) {
+            this.objects["mainactionpanel"].children = this.objects["mainactionpanel"].children.filter(child => child !== this.objects["attacks"]);
+        }
 
         this.objects["mainactionpanel"].addChild(attacks);
         attacks.setVisible(false);
@@ -258,11 +553,136 @@ export default class Battle extends GameScript {
             }
 
             if (self.custom_attributes["clicked"]) {
+                self.custom_attributes["clicked"] = false;
+
+                this.canChooseAttack = false;
                 attacks.setVisible(true)
                 this.objects["actions"].setVisible(false);
+                this.objects["infotext"].setText("Choose an attack!", { ...this.engine.defaultFontOptions, size: 28 });
+
+                setTimeout(() => {
+                        this.canChooseAttack = true;
+                }, 150);
             }
         };
 
         this.objects["attack-btn"].bindToUpdate(attackButtonBind);
+
+        const enemyAttack = () => {
+            const attackNames = Object.keys(target.attackSet);
+            const randomAttackName = attackNames[Math.floor(Math.random() * attackNames.length)];
+            const attackData = target.attackSet[randomAttackName];
+
+            this.objects["infotext"].setText(`${target.nick.toUpperCase()} used ${randomAttackName}!`, { ...this.engine.defaultFontOptions, size: 28 });
+
+            const applyPlayerDamage = () => {
+                this.engine.sound.playSFX("hit");
+
+                let damage = attackData.base_power;
+                let effectMsg = "";
+
+
+                if (randomAttackName === "Seed Shot") {
+                    damage = Math.max(1, Math.round(damage * 0.5));
+                    effectMsg = " It's not very effective...";
+                }
+                else if (randomAttackName === "Bubble Gun") {
+                    damage = Math.round(damage * 2);
+                    effectMsg = " It's super effective!";
+                }
+                
+                player.health = (Math.max(0, player.health - damage));
+                
+                const fullBarWidth = 300;
+                const healthRatio = player.health / player.maxHealth;
+                const newBarWidth = fullBarWidth * healthRatio;
+
+                this.objects["player-health-bar"].fills[0].size.x = newBarWidth;
+
+                if (effectMsg) {
+                    setTimeout(() => {
+                        this.objects["infotext"].setText(effectMsg, { ...this.engine.defaultFontOptions, size: 28 });
+
+                        setTimeout(() => {
+                            if (player.health <= 0) {
+                                this.objects["infotext"].setText(`${player.nick.toUpperCase()} fainted!`, { ...this.engine.defaultFontOptions, size: 28 });
+                                setTimeout(() => {
+                                    endBattle();
+                                }, 1500);
+                            } else {
+                                this.objects["infotext"].setText("What will you do?", { ...this.engine.defaultFontOptions, size: 28 });
+                                this.objects["actions"].setVisible(true);
+                            }
+                        }, 1000);
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        if (player.health <= 0) {
+                            this.objects["infotext"].setText(`${player.nick.toUpperCase()} fainted!`, { ...this.engine.defaultFontOptions, size: 28 });
+                            setTimeout(() => {
+                                endBattle();
+                            }, 1500);
+                        } else {
+                            this.objects["infotext"].setText("What will you do?", { ...this.engine.defaultFontOptions, size: 28 });
+                            this.objects["actions"].setVisible(true);
+                        }
+
+                    }, 1000);
+                }
+            }
+
+            if (randomAttackName === "Tackle" || !attackData.sheet)
+            {
+                target.position.x -= 30;
+
+                setTimeout(() => {
+                    target.position.x += 30;
+                    applyPlayerDamage();
+                }, 200);
+            }
+            else {
+                (async () => {
+                    const asset = await createAsset(attackData.sheet);
+                    const moveSprite = new GameObject()
+                        .setName("move-sprite")
+                        .setSprite(asset, Vector2(32, 32))
+                        .setScale(Vector2(3, 3))
+                        .setPosition(Vector2(target.position.x - 50, target.position.y - 20))
+                        .setLayer(4)
+                        .setUseCamera(false);
+
+                    this.engine.addObject(moveSprite);
+
+                    const moveSpriteAnimation = (pself, delta, time) => {
+                        pself.position.x -= 1800 * delta;
+                        pself.position.y += 720 * delta;
+
+                        if (pself.position.x <= player.position.x + 50) {
+                            pself.removeFromUpdateBind(moveSpriteAnimation);
+                            pself.destroy();
+                            applyPlayerDamage();
+                        }
+                    };
+
+                    moveSprite.bindToUpdate(moveSpriteAnimation);
+                })();
+            }
+
+        };
+
+        const fleeButtonBind = (self, delta, time) => {
+            if (this.engine.state != "battle") {
+                self.removeFromUpdateBind(fleeButtonBind);
+                return;
+            }
+
+            if (self.custom_attributes["clicked"]) {
+                self.custom_attributes["clicked"] = false;
+                this.objects["infotext"].setText("You fled the battle!", { ...this.engine.defaultFontOptions, size: 28 });
+                setTimeout(() => { endBattle(); }, 1500);
+            }
+        }
+
+        this.objects["flee-btn"].bindToUpdate(fleeButtonBind);
     }
 }

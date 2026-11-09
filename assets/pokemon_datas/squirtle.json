@@ -12,6 +12,11 @@
         "spriteScale": 2
     },
     "attacks": {
+        "Tackle" : {
+            "base_power": 10,
+            "accuracy": 0.75,
+            "type": "Normal"
+        },
         "Bubble Gun": {
             "sheet": "./assets/moves/bubble-gun-sprite-sheet.png",
             "frameDimX": 32,

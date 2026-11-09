@@ -12,7 +12,13 @@
         "spriteScale": 2
     },
     "attacks": {
+        "Tackle" : {
+            "base_power": 10,
+            "accuracy": 0.75,
+            "type": "Normal"
+        },
         "Seed Shot": {
+            "name": "Seed Shot",
             "sheet": "./assets/moves/seed-shot-sprite-sheet.png",
             "frameDimX": 32,
             "frameDimY": 29,
