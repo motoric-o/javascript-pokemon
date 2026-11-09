@@ -11,6 +11,7 @@ const fontOptions = { font: "'Pokemon', monospace", size: 32, color: Color(255, 
 const engine = new GameEngine(1280, 720, 5);
 engine.setDefaultFontOptions(fontOptions);
 engine.setState("loading");
+engine.sound.setVolume(0.25)
 engine.start();
 
 const menu = new GameMenu(engine);
