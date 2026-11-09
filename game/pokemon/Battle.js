@@ -390,6 +390,7 @@ export default class Battle extends GameScript {
                             this.setMessage("attack", damage.effectKey);
                             if (target.isFainted()) {
                                 handleTargetDead();
+                                target.sprite.setFlipY(true);
                                 this.setMessage("status", "faint", { name: target.nick.toUpperCase() });
                             } else {
                                 this.turn = "Enemy";
@@ -431,8 +432,10 @@ export default class Battle extends GameScript {
                         setTimeout(() => {
                             this.setMessage("attack", damage.effectKey);
                             if (player.isFainted()) {
+                                player.setVelocity(Vector2(0, 1300));
                                 this.setMessage("status", "faint", { name: player.nick.toUpperCase() });
                                 setTimeout(() => {
+                                    player.setVelocity(Vector2(0, 0));
                                     this.endBattle(player, target);
                                     clearInterval(cycle);
                                 }, 2000);
@@ -469,7 +472,7 @@ export default class Battle extends GameScript {
         player.initBattle();
         target.initBattle();
 
-        this.turn = "Enemy";
+        this.turn = "Player";
         const random = Math.random();
 
         this.objects["player-health-bar"].fills[0].size.x = 299;
@@ -489,7 +492,9 @@ export default class Battle extends GameScript {
         }
 
         player.setVisible(true);
+        player.setVelocity(Vector2(0, 0));
         target.setVisible(true);
+        target.sprite.setFlipY(false);
 
         const movePlayer = (self, delta, time) => {
             if (self.position.x < 375) {

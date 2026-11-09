@@ -22,7 +22,7 @@
             "sheet": "./assets/moves/fireball-sprite-sheet.png",
             "frameDimX": 32,
             "frameDimY": 46,
-            "animDirection": "R",
+            "animDirection": "C",
             "animFrameRate": 10,
             "spriteScale": 1,
             "base_power": 10,

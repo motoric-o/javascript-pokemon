@@ -23,7 +23,7 @@
             "sheet": "./assets/moves/seed-shot-sprite-sheet.png",
             "frameDimX": 32,
             "frameDimY": 29,
-            "animDirection": "R",
+            "animDirection": "C",
             "animFrameRate": 10,
             "spriteScale": 1,
             "base_power": 10,

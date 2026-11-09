@@ -22,14 +22,14 @@
             "sheet": "./assets/moves/bubble-gun-sprite-sheet.png",
             "frameDimX": 32,
             "frameDimY": 32,
-            "animDirection": "C",
+            "animDirection": "R",
             "animFrameRate": 10,
             "spriteScale": 1,
             "base_power": 10,
             "accuracy": 0.75,
             "type": "Water",
             "loop_sequence": [0, -1],
-            "impact_sequence": [0, 1, 2, 3, 4, 5]
+            "impact_sequence": [0, 1, 2, 3, 4]
         }
     }
 }

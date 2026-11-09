@@ -1,7 +1,7 @@
 import GameScript from "./GameScript.js";
 import GameObject from "../lib/engine/object.js";
 import { Color, Vector2 } from "../lib/graphics/primitive/index.js";
-import { createFillInfo } from "../lib/util/graphics.js";
+import { createFillInfo, createTextAsset } from "../lib/util/graphics.js";
 import { createAsset, createAnimation } from "../lib/util/graphics.js";
 import Button from "../prefab/button.js";
 
@@ -54,6 +54,7 @@ export default class GameMenu extends GameScript {
             .setLayer(2);
 
         const menuTextAsset = await createAsset('../assets/ui/logo/pokemon_logo.webp');
+        const jsAsset = await createAsset('../assets/ui/logo/js.webp');
 
         const menuText = new GameObject()
             .setName("menu-text")
@@ -63,33 +64,39 @@ export default class GameMenu extends GameScript {
             .setScale(Vector2(0.5, 0.5))
             .setUseCamera(false);
 
-        const asset = await createAsset('./assets/player/player-red-sprite-sheet.png')
-
-        const sprite = new GameObject()
-            .setName("test")
-            .setSprite(asset, Vector2(17, 24))
-            .setColor(Color(0, 0, 0))
-            .setLayer(1)
-            .setPosition(Vector2(1557, 1125))
-            .setScale(Vector2(5, 5));
-
-        sprite.sprite.addAnimation(createAnimation("idle", [1, -1], "C", 10));
-        sprite.sprite.setAnimation("idle");
+        const jsLogo = new GameObject()
+            .setName("js-logo")
+            .setSprite(jsAsset)
+            .setPosition(Vector2(570, 275))
+            .setLayer(2)
+            .setScale(Vector2(0.05, 0.05))
+            .setUseCamera(false);
 
         const startButton = Button("Start Game", this.engine);
         startButton.setPosition(Vector2(640, 500));
         startButton.setVisible(false);
+
+        const editionText = createTextAsset("EDITION", { ...this.engine.defaultFontOptions, size: 48, color: Color(0, 0, 0) });
+
+        const edition = new GameObject()
+            .setName("js-logo")
+            .setSprite(editionText)
+            .setPosition(Vector2(710, 285))
+            .setLayer(2)
+            .setUseCamera(false);
 
         this.engine.camera.setTarget(menuCoord);
 
         this.engine.addObject(menuCoord);
         this.engine.addObject(menuText);
         this.engine.addObject(startButton);
-        // this.engine.addObject(sprite);
+        this.engine.addObject(jsLogo);
+        this.engine.addObject(edition);
         this.objects["menu-coord"] = menuCoord;
         this.objects["menu-text"] = menuText;
         this.objects["start-button"] = startButton;
-        // this.objects["sprite"] = sprite;
+        this.objects["js-logo"] = jsLogo;
+        this.objects["edition"] = edition;
     }
 
     async loadAssets() {
