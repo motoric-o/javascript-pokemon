@@ -3,7 +3,8 @@
         "health": 100,
         "attack": 10,
         "defense": 10,
-        "speed": 10
+        "speed": 10,
+        "class": "Water"
     },
     "sprite": {
         "sheet": "./assets/pokemons/squirtle-sprite-sheet.png",
@@ -26,7 +27,9 @@
             "spriteScale": 1,
             "base_power": 10,
             "accuracy": 0.75,
-            "type": "Water"
+            "type": "Water",
+            "loop_sequence": [0, -1],
+            "impact_sequence": [0, 1, 2, 3, 4, 5]
         }
     }
 }
