@@ -3,7 +3,8 @@
         "health": 100,
         "attack": 10,
         "defense": 10,
-        "speed": 10
+        "speed": 10,
+        "class": "Earth"
     },
     "sprite": {
         "sheet": "./assets/pokemons/bulbasaur-sprite-sheet.png",
@@ -22,12 +23,14 @@
             "sheet": "./assets/moves/seed-shot-sprite-sheet.png",
             "frameDimX": 32,
             "frameDimY": 29,
-            "animDirection": "R",
+            "animDirection": "C",
             "animFrameRate": 10,
             "spriteScale": 1,
             "base_power": 10,
             "accuracy": 0.75,
-            "type": "Earth"
+            "type": "Earth",
+            "loop_sequence": [0, -1],
+            "impact_sequence": [0, 1, 2, 3, 4, 5, 6]
         }
     }
 }
