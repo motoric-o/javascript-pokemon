@@ -82,7 +82,7 @@ export default class Battle extends GameScript {
                 Vector2(-160, 20)
             ])
             .setFills([
-                createFillInfo("R", [Color(150, 150, 150), Color(0, 0, 0)], Vector2(-159, -34), Vector2(318, 58))
+                createFillInfo("R", [Color(150, 150, 150), Color(0, 0, 0)], Vector2(-159, -34), Vector2(319, 55))
             ])
             .setPosition(Vector2(380, 280))
             .setLayer(3)
@@ -112,7 +112,7 @@ export default class Battle extends GameScript {
                 Vector2(-150, 10)
             ])
             .setFills([
-                createFillInfo("R", [Color(0, 255, 0)], Vector2(-149, -9), Vector2(300, 18))
+                createFillInfo("R", [Color(0, 255, 0)], Vector2(-149, -9), Vector2(299, 18))
             ])
             .setPosition(Vector2(380, 280))
             .setLayer(3)
@@ -131,7 +131,7 @@ export default class Battle extends GameScript {
                 Vector2(-160, 20)
             ])
             .setFills([
-                createFillInfo("R", [Color(150, 150, 150), Color(0, 0, 0)],Vector2(-159, -34), Vector2(318, 58))
+                createFillInfo("R", [Color(150, 150, 150), Color(0, 0, 0)],Vector2(-159, -34), Vector2(319, 55))
             ])
             .setPosition(Vector2(1030, 80))
             .setLayer(3)
@@ -162,7 +162,7 @@ export default class Battle extends GameScript {
                 Vector2(-150, 10)
             ])
             .setFills([
-                createFillInfo("R", [Color(0, 255, 0)], Vector2(-149, -9), Vector2(300, 18))
+                createFillInfo("R", [Color(0, 255, 0)], Vector2(-149, -9), Vector2(299, 18))
             ])
             .setPosition(Vector2(1030, 80))
             .setLayer(3)
@@ -317,10 +317,8 @@ export default class Battle extends GameScript {
                 self.removeFromUpdateBind(movePlayer);
                 this.objects["player-health-bg"].setVisible(true);
                 this.objects["player-health-bar"].setVisible(true);
-                this.objects["player-name"].setText(player.pokemon.toUpperCase(), { ...this.engine.defaultFontOptions, size: 16 })
+                this.objects["player-name"].setText(player.nick.toUpperCase(), { ...this.engine.defaultFontOptions, size: 16 })
                 this.objects["player-name"].setVisible(true);
-
-
             }
         };
 
@@ -331,7 +329,7 @@ export default class Battle extends GameScript {
                 self.removeFromUpdateBind(moveTarget);
                 this.objects["target-health-bg"].setVisible(true);
                 this.objects["target-health-bar"].setVisible(true);
-                this.objects["target-name"].setText(target.pokemon.toUpperCase(), { ...this.engine.defaultFontOptions, size: 16 })
+                this.objects["target-name"].setText(target.nick.toUpperCase(), { ...this.engine.defaultFontOptions, size: 16 })
                 this.objects["target-name"].setVisible(true);
             }
         };
@@ -377,7 +375,7 @@ export default class Battle extends GameScript {
         }
 
         const handleTargetDead = () => {
-            this.objects["infotext"].setText(`${target.pokemon.toUpperCase()} fainted!`, { ...this.engine.defaultFontOptions, size: 28 });
+            this.objects["infotext"].setText(`${target.nick.toUpperCase()} fainted!`, { ...this.engine.defaultFontOptions, size: 28 });
             setTimeout(() => {
                 endBattle();
             }, 2000);
@@ -418,7 +416,7 @@ export default class Battle extends GameScript {
 
                             this.objects["target-health-bar"].fills[0].size.x = newBarWidth;
 
-                            this.objects["infotext"].setText(`${player.pokemon.toUpperCase()} used ${attackName}!`, { ...this.engine.defaultFontOptions, size: 28 });
+                            this.objects["infotext"].setText(`${player.nick.toUpperCase()} used ${attackName}!`, { ...this.engine.defaultFontOptions, size: 28 });
 
                             if (target.health <= 0) {
                                 handleTargetDead();
@@ -501,7 +499,7 @@ export default class Battle extends GameScript {
 
                                             this.objects["target-health-bar"].fills[0].size.x = newBarWidth;
 
-                                            this.objects["infotext"].setText(`${player.pokemon.toUpperCase()} used ${attackName}!`, { ...this.engine.defaultFontOptions, size: 28 });
+                                            this.objects["infotext"].setText(`${player.nick.toUpperCase()} used ${attackName}!`, { ...this.engine.defaultFontOptions, size: 28 });
                                             
                                             if (effectMsg) {
                                                 setTimeout(() => {
@@ -575,7 +573,7 @@ export default class Battle extends GameScript {
             const randomAttackName = attackNames[Math.floor(Math.random() * attackNames.length)];
             const attackData = target.attackSet[randomAttackName];
 
-            this.objects["infotext"].setText(`${target.pokemon.toUpperCase()} used ${randomAttackName}!`, { ...this.engine.defaultFontOptions, size: 28 });
+            this.objects["infotext"].setText(`${target.nick.toUpperCase()} used ${randomAttackName}!`, { ...this.engine.defaultFontOptions, size: 28 });
 
             const applyPlayerDamage = () => {
                 this.engine.sound.playSFX("hit");
@@ -607,7 +605,7 @@ export default class Battle extends GameScript {
 
                         setTimeout(() => {
                             if (player.health <= 0) {
-                                this.objects["infotext"].setText(`${player.pokemon.toUpperCase()} fainted!`, { ...this.engine.defaultFontOptions, size: 28 });
+                                this.objects["infotext"].setText(`${player.nick.toUpperCase()} fainted!`, { ...this.engine.defaultFontOptions, size: 28 });
                                 setTimeout(() => {
                                     endBattle();
                                 }, 1500);
@@ -620,7 +618,7 @@ export default class Battle extends GameScript {
                 } else {
                     setTimeout(() => {
                         if (player.health <= 0) {
-                            this.objects["infotext"].setText(`${player.pokemon.toUpperCase()} fainted!`, { ...this.engine.defaultFontOptions, size: 28 });
+                            this.objects["infotext"].setText(`${player.nick.toUpperCase()} fainted!`, { ...this.engine.defaultFontOptions, size: 28 });
                             setTimeout(() => {
                                 endBattle();
                             }, 1500);
